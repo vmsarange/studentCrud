@@ -53,4 +53,14 @@ public class StudentService {
 		
 	   return new ResponseEntity<ResponseStructure<Student>>(rStructure,HttpStatus.CREATED);
 	}
+	public ResponseEntity<ResponseStructure<Student>> getStudent(int id) {
+		
+		ResponseStructure<Student> rStructure = new ResponseStructure<Student>();
+
+		rStructure.setMessage("Student Found");
+		rStructure.setStatus(HttpStatus.FOUND.value());
+		rStructure.setData(dao.getStudent(id));
+		
+		return new ResponseEntity<ResponseStructure<Student>> (rStructure,HttpStatus.FOUND);
+	}
 }
