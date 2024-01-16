@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.qsp.studentcrud.dao.StudentDao;
 import com.qsp.studentcrud.dto.Student;
+import com.qsp.studentcrud.exception.DataNotAvailable;
+import com.qsp.studentcrud.exception.IdNotFound;
 import com.qsp.studentcrud.util.ResponseStructure;
 
 @Service
@@ -57,6 +59,12 @@ public class StudentService {
 	}
 	public ResponseEntity<ResponseStructure<Student>> getStudent(int id) {
 		
+		Student  dbStudent = dao.getStudent(id);
+		
+		if (dbStudent==null) {
+			
+		    throw new IdNotFound("Id not found");
+		}
 		ResponseStructure<Student> rStructure = new ResponseStructure<Student>();
 
 		rStructure.setMessage("Student Found");
@@ -71,7 +79,7 @@ public class StudentService {
 		
 		if(list.isEmpty())
 		{
-			return null;
+			throw new DataNotAvailable("Data is not present");
 		}
 		ResponseStructure<List<Student>> rStructure = new ResponseStructure<List<Student>>();
 
@@ -94,7 +102,7 @@ public class StudentService {
 		  return new ResponseEntity<ResponseStructure<Student>>(rStructure,HttpStatus.OK);
 		}
 		
-		return null;
+		throw new IdNotFound("Id not found");
 	}
 	public ResponseEntity<ResponseStructure<Student>> update(Student student, int id) {
 		
@@ -130,13 +138,13 @@ public class StudentService {
 			}
 			else {
 				student.setGradeDescription("Fail");
-			}
+		}
 			
 			rStructure.setMessage("Student udpated successfully");
 			rStructure.setStatus(HttpStatus.OK.value());
 			rStructure.setData(dao.updateStudent(student, id));
 			return new ResponseEntity<ResponseStructure<Student>>(rStructure,HttpStatus.OK);
 		}
-		return null;
+		throw new IdNotFound("Id not found");
 	}
 }
