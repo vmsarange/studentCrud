@@ -1,5 +1,7 @@
 package com.qsp.studentcrud.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +64,21 @@ public class StudentService {
 		rStructure.setData(dao.getStudent(id));
 		
 		return new ResponseEntity<ResponseStructure<Student>> (rStructure,HttpStatus.FOUND);
+	}
+	public ResponseEntity<ResponseStructure<List<Student>>> getAll() {
+		
+		List<Student> list = dao.getAll();
+		
+		if(list.isEmpty())
+		{
+			return null;
+		}
+		ResponseStructure<List<Student>> rStructure = new ResponseStructure<List<Student>>();
+
+		rStructure.setMessage("Students present");
+		rStructure.setStatus(HttpStatus.FOUND.value());
+		rStructure.setData(list);
+		
+		return new ResponseEntity<ResponseStructure<List<Student>>>(rStructure,HttpStatus.FOUND);
 	}
 }

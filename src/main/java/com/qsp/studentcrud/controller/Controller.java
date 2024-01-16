@@ -1,5 +1,7 @@
 package com.qsp.studentcrud.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,5 +29,10 @@ public class Controller {
 	public ResponseEntity<ResponseStructure<Student>> getStudent(@RequestParam int id) {
 		
 		return service.getStudent(id);
+	}
+	@GetMapping("/getAll")
+    public ResponseEntity<ResponseStructure<List<Student>>> getAll() {
+		
+    	return service.getAll();
 	}
 }
