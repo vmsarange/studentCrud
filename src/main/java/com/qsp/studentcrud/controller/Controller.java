@@ -42,4 +42,9 @@ public class Controller {
 		
 		return service.deleteStudent(id);
 	}
+	@PostMapping("/updateStudent")
+	public ResponseEntity<ResponseStructure<Student>> updateStudent(@RequestBody Student student,@RequestParam int id) {
+		
+		return service.update(student, id);
+	}
 }

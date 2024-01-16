@@ -96,4 +96,47 @@ public class StudentService {
 		
 		return null;
 	}
+	public ResponseEntity<ResponseStructure<Student>> update(Student student, int id) {
+		
+		Student dbStudent = dao.getStudent(id);
+		ResponseStructure<Student> rStructure = new ResponseStructure<Student>();
+		
+		if(dbStudent!=null) {
+			
+			double securedMarks = student.getSecuredMarks();
+			double totalMarks = student.getTotalMarks();
+			
+			double percentage = (securedMarks*100)/totalMarks;
+			student.setPercentage(percentage);
+			if (percentage>70 && percentage<=100) {
+				
+				student.setGradeDescription("First Class With Distinction");		
+			}
+			else if (percentage>60 && percentage<=70) {
+				
+				student.setGradeDescription("First Class");
+			}
+			else if (percentage>50 && percentage<=60) {
+				
+				student.setGradeDescription("Second Class");
+			}
+			else if (percentage>40 && percentage<=50) {
+				
+				student.setGradeDescription("Third class");
+			}
+			else if(percentage>=35 && percentage<=40)
+			{
+				student.setGradeDescription("Pass");
+			}
+			else {
+				student.setGradeDescription("Fail");
+			}
+			
+			rStructure.setMessage("Student udpated successfully");
+			rStructure.setStatus(HttpStatus.OK.value());
+			rStructure.setData(dao.updateStudent(student, id));
+			return new ResponseEntity<ResponseStructure<Student>>(rStructure,HttpStatus.OK);
+		}
+		return null;
+	}
 }
