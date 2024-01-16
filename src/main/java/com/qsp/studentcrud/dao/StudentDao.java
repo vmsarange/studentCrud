@@ -40,7 +40,8 @@ public class StudentDao {
 		{
 			return null;
 		}
-		repo.deleteById(id);	
+		repo.deleteById(id);
+		
 		return optional.get();
 	}
 	public Student updateStudent(Student student, int id) {
